@@ -15,6 +15,7 @@ provider "aws" {
 
 #creating s3 bucket
 resource "aws_s3_bucket" "factorial_bucket" {
+  
   bucket = "zahaab-pythom-bucket"
   acl= "private"
 }
