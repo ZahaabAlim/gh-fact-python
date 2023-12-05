@@ -8,6 +8,6 @@ on:
         type: number
 jobs:
   call-callable:
-    uses: ./.github/workflows/callable.yml
+    uses: .github/workflows/callable.yml
     with:
       num: ${{ inputs.num }}
