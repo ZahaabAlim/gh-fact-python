@@ -1,0 +1,40 @@
+name: Passing Value Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      num1:
+        description: 'Number'
+        required: true
+        type: number
+      
+jobs:
+  calculate_factorial:
+    runs-on: ubuntu-latest
+    outputs:
+      fact_value: ${{ steps.run-python.outputs.fact_value }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run Python Script
+        id: run-python
+        run: |
+          fact_value=$(python factorial.py ${{ github.event.inputs.num}})
+          echo "::set-output name=fact_value::$fact_value"
+
+  print_sum:
+    runs-on: ubuntu-latest
+    needs: calculate_factorial
+
+    steps:
+      - name: Use Factoral Value
+        run: |
+          print_fact="${{ needs.calculate_factorial.outputs.fact_value }}"
+          echo "Factorial value : $print_fact"
